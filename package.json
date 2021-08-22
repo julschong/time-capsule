@@ -1,0 +1,36 @@
+{
+  "name": "time-capsule",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev ./src/index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julschong/time-capsule.git"
+  },
+  "keywords": [],
+  "author": "Julius Lee",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/julschong/time-capsule/issues"
+  },
+  "homepage": "https://github.com/julschong/time-capsule#readme",
+  "devDependencies": {
+    "@types/ejs": "^3.1.0",
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.7.1",
+    "express": "^4.17.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "email-templates": "^8.0.8",
+    "nodemailer": "^6.6.3",
+    "pug": "^3.0.2"
+  }
+}
