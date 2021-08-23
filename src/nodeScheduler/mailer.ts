@@ -59,9 +59,11 @@ const sendMail = async (mail: Mail) => {
                       ]
                     : undefined
             });
-            await fs.unlinkSync(
-                path.resolve(__dirname, `../../${uploadedImage}`)
-            );
+
+            uploadedImage &&
+                (await fs.unlinkSync(
+                    path.resolve(__dirname, `../../${uploadedImage}`)
+                ));
             console.log(`mail sent`);
         }
     );

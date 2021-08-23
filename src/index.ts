@@ -9,6 +9,7 @@ import multer from 'multer';
 
 import dotenv from 'dotenv';
 import { Email } from './entity/Email';
+import { today } from './util/dateUtil';
 dotenv.config();
 
 const upload = multer({ dest: 'uploads/' });
@@ -25,7 +26,7 @@ createConnection()
         app.use(express.static(path.resolve(__dirname + '/../view')));
 
         app.get('/', (req: Request, res: Response) => {
-            res.render('home');
+            res.render('home', { today: today() });
         });
 
         app.use(
@@ -44,8 +45,10 @@ createConnection()
         );
 
         app.get('/confirmed', (req: Request, res: Response) => {
-            const data = req.query.data as string;
-            res.json(JSON.parse(data));
+            const data = JSON.parse(req.query.data as string);
+            data.body = data.body.split('\n');
+            res.render('mail', data);
+            // res.json(JSON.parse(data));
         });
 
         // register express routes from defined application routes
