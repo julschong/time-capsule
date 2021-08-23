@@ -18,9 +18,9 @@ type Mail = {
 
 const sendMail = async (mail: Mail) => {
     let transporter = nodemailer.createTransport({
-        service: 'gmail',
+        service: process.env.serviceType,
         auth: {
-            user: 'julschong7@gmail.com', // generated ethereal user
+            user: process.env.gmailUser, // generated ethereal user
             pass: process.env.gmailPW // generated ethereal password
         }
     });
