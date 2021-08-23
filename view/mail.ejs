@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Handlee&display=swap"
+            rel="stylesheet"
+        />
+        <title>Document</title>
+        <style>
+            * {
+                font-family: cursive;
+                color-scheme: light only;
+            }
+
+            #background {
+                background-image: linear-gradient(
+                        to bottom,
+                        rgba(255, 255, 255, 0) 60%,
+                        rgba(255, 255, 255, 0.7)
+                    ),
+                    url(https://images.unsplash.com/photo-1487147264018-f937fba0c817?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80);
+                background-repeat: no-repeat;
+                background-size: cover;
+                width: 800px;
+                min-height: 1100px;
+                padding: 50px;
+            }
+
+            #from {
+                align-self: flex-end;
+            }
+
+            h2 {
+                font-size: 3rem;
+            }
+
+            #message-body {
+                line-height: 2rem;
+                font-size: 2rem;
+            }
+
+            @media (screen) and (prefers-color-scheme: dark) {
+                #background {
+                    background-image: #000000;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="background" style="color: #000001">
+            <small id="title"> Hello! <%= name%>, </small>
+            <br />
+            <small>
+                This letter was sent from yourself on <%= createdDate %>
+            </small>
+            <br />
+            <small> From: <%= fromEmail %> </small>
+            <br />
+            <small> To: <%= toEmail %> </small>
+            <h2 style="color: #000001">To: <%= name%></h2>
+
+            <div id="message-body">
+                <% body.forEach(el=> { %>
+                <p><%= el %></p>
+                <% }) %>
+            </div>
+
+            <h2 id="from"><%= name%></h2>
+            <h2><%= createdDate%></h2>
+        </div>
+    </body>
+</html>

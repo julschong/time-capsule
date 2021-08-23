@@ -1,11 +1,8 @@
-import schedule from 'node-schedule';
-
-const rule = new schedule.RecurrenceRule();
-rule.second = 5;
-
 import { Email } from '../entity/Email';
 import { getRepository, Like } from 'typeorm';
 import sendMail from './mailer';
+import fs from 'fs';
+import path from 'path';
 
 export const job = () => {
     setInterval(async () => {
@@ -20,10 +17,9 @@ export const job = () => {
             sendDate: todayString,
             sent: false
         });
-        emails.forEach(async ({ name, toEmail, subject, body, id }) => {
-            await sendMail(name, toEmail, subject, body);
-            await emailRepo.update({ id }, { sent: true });
-            console.log(`mail sent`);
+        emails.forEach(async (email) => {
+            await sendMail(email);
+            await emailRepo.update({ id: email.id }, { sent: true });
         });
     }, 10 * 1000);
 };

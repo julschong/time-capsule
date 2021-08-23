@@ -4,11 +4,14 @@ import express from 'express';
 import { Request, Response } from 'express';
 import { Routes } from './routes';
 import path from 'path';
-import { Email } from './entity/Email';
 import { job } from './nodeScheduler/checkDB';
+import multer from 'multer';
 
 import dotenv from 'dotenv';
+import { Email } from './entity/Email';
 dotenv.config();
+
+const upload = multer({ dest: 'uploads/' });
 
 createConnection()
     .then(async (connection) => {
@@ -19,21 +22,29 @@ createConnection()
 
         app.set('view engine', 'ejs');
         app.set('views', path.resolve(__dirname + '/../view'));
+        app.use(express.static(path.resolve(__dirname + '/../view')));
 
         app.get('/', (req: Request, res: Response) => {
             res.render('home');
         });
 
-        app.post('/submit', async (req: Request, res: Response) => {
-            const emailRepo = getRepository(Email);
-            const newEmail = await emailRepo.save(req.body);
-            const urlencoded = encodeURIComponent(JSON.stringify(newEmail));
-            res.redirect('/confirmed?data=' + urlencoded);
-        });
+        app.use(
+            '/submit',
+            upload.single('image'),
+            async (req: Request, res: Response) => {
+                const emailRepo = getRepository(Email);
+                const newEmail = await emailRepo.save({
+                    ...req.body,
+                    uploadedImage: req.file ? req.file.path : null,
+                    originalFileName: req.file ? req.file.originalname : null
+                });
+                const urlencoded = encodeURIComponent(JSON.stringify(newEmail));
+                res.redirect('/confirmed?data=' + urlencoded);
+            }
+        );
 
         app.get('/confirmed', (req: Request, res: Response) => {
             const data = req.query.data as string;
-            console.log(data);
             res.json(JSON.parse(data));
         });
 

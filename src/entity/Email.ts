@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn
+} from 'typeorm';
+import { ForeignKeyMetadata } from 'typeorm/metadata/ForeignKeyMetadata';
+import { User } from './User';
 
 @Entity()
 export class Email {
@@ -21,8 +29,20 @@ export class Email {
     body: string;
 
     @Column({ type: 'date' })
-    sendDate: string;
+    sendDate: Date;
 
     @Column({ default: false })
     sent: boolean;
+
+    @Column({ nullable: true })
+    uploadedImage: string;
+
+    @Column({ nullable: true })
+    originalFileName: string;
+
+    @CreateDateColumn({ type: 'date' })
+    createdDate: Date;
+
+    @ManyToOne(() => User, (user) => user.emails)
+    user: User;
 }
