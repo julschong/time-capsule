@@ -1,22 +1,40 @@
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
+import { createConnection, getRepository } from 'typeorm';
 import express from 'express';
 import { Request, Response } from 'express';
 import { Routes } from './routes';
-import { User } from './entity/User';
 import path from 'path';
+import { Email } from './entity/Email';
+import { job } from './nodeScheduler/checkDB';
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 createConnection()
     .then(async (connection) => {
         // create express app
         const app = express();
         app.use(express.json());
+        app.use(express.urlencoded({ extended: true }));
 
         app.set('view engine', 'ejs');
         app.set('views', path.resolve(__dirname + '/../view'));
 
-        app.get('/', (req, res) => {
+        app.get('/', (req: Request, res: Response) => {
             res.render('home');
+        });
+
+        app.post('/submit', async (req: Request, res: Response) => {
+            const emailRepo = getRepository(Email);
+            const newEmail = await emailRepo.save(req.body);
+            const urlencoded = encodeURIComponent(JSON.stringify(newEmail));
+            res.redirect('/confirmed?data=' + urlencoded);
+        });
+
+        app.get('/confirmed', (req: Request, res: Response) => {
+            const data = req.query.data as string;
+            console.log(data);
+            res.json(JSON.parse(data));
         });
 
         // register express routes from defined application routes
@@ -40,11 +58,10 @@ createConnection()
             );
         });
 
-        // setup express app here
-        // ...
-
         // start express server
         app.listen(3003);
+
+        job();
 
         console.log(
             'Express server has started on port 3003. Open http://localhost:3003'

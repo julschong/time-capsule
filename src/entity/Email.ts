@@ -2,8 +2,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Email {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     name: string;
@@ -20,6 +20,9 @@ export class Email {
     @Column()
     body: string;
 
-    @Column()
-    sendDate: Date;
+    @Column({ type: 'date' })
+    sendDate: string;
+
+    @Column({ default: false })
+    sent: boolean;
 }

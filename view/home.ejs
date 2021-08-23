@@ -4,9 +4,59 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Home</title>
+        <title>Time Capsule</title>
     </head>
     <body>
-        Home
+        <header>Time Capsule</header>
+        <form action="/submit" method="post">
+            <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Name"
+                required
+            />
+            <br />
+            <input
+                type="email"
+                name="fromEmail"
+                id="fromEmail"
+                placeholder="Send from?"
+                required
+            />
+            <br />
+            <input
+                type="email"
+                name="toEmail"
+                id="toEmail"
+                placeholder="Send to?"
+                required
+            />
+            <br />
+            <input
+                type="text"
+                name="subject"
+                id="subject"
+                placeholder="Subject"
+                required
+            />
+            <br />
+            <textarea
+                name="body"
+                id="body"
+                placeholder="Body"
+                required
+            ></textarea>
+            <br />
+            <input
+                type="date"
+                name="sendDate"
+                id="sendDate"
+                placeholder="today"
+                required
+            />
+
+            <input type="submit" value="submit" />
+        </form>
     </body>
 </html>
